@@ -8,7 +8,6 @@ function Highlight() {
 Highlight.prototype = {
     init: function () {
         this.start();
-        // this.bind();
     },
     //从搜索结果中获取关键字，中文包括搜索结果中的繁体字
     retrieveKeyword: function () {
@@ -47,22 +46,37 @@ Highlight.prototype = {
         }
     },
     start: function () {
+        this.readyDom=document.createElement('input');
+        this.readyDom.setAttribute('type','hidden');
+        this.readyDom.setAttribute('id','highlightReady');
         //等待元素在异步动态添加后执行后续操作
         var s = setInterval(function () {
             var ires = document.getElementById('ires');
             if (ires) {
+                ires.appendChild(this.readyDom);
                 clearInterval(s);
+                this.bind();
                 this.highlight()
             }
         }.bind(this), 200);
     },
     bind: function () {
-        // var searchBtn = document.querySelector('button[name=btnG][type=submit]'),
-        //     _self = this;
-        // searchBtn.addEventListener('click', function (e) {
-        //     _self.highlight();
-        // })
+        var searchBtn = document.querySelector('button[name=btnG][type=submit]'),
+            _self = this;
+        searchBtn.addEventListener('click', function (e) {
+            var s=setInterval(function () {
+                var ires = document.getElementById('ires');
+                console.log(ires);
+                var readyEl=ires.querySelector('#highlightReady');
+                if(!readyEl){
+                    ires.appendChild(_self.readyDom);
+                    clearInterval(s);
+                    _self.highlight();
+                }
+            },200);
+        })
     }
+    //前进后退不支持，点击搜索结果中的超链接异步加载不支持
 }
 
 new Highlight();

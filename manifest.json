@@ -1,8 +1,8 @@
-{
+﻿{
   "manifest_version":2,
   "name":"Heghlight keyword for Google",
   "description":"高亮谷歌搜索结果的标题",
-  "version":"0.1",
+  "version":"0.2",
   "content_scripts":[
     {
       "matches":["https://*.google.com/*","http://*.google.com/*"],
